@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active:
+    - redis
+    - single-datasource
+logging:
+  level:
+    com.h3w: info

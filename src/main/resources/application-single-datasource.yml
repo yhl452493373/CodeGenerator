@@ -1,0 +1,13 @@
+#单数据源，与多数据源列表二选一。如果既设置了单数据源，又设置了多数据源，则以多数据源为准
+#如果要启用,则在application.yml中spring.profiles.active添加一个single-datasource列表对象
+datasource:
+  #存放Config.java的配置文件的包
+  config-package: com.yang.demo.config
+  datasource-properties:
+    url: jdbc:mysql://localhost:3306/psm?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type-aliases-package: com.yang.demo.entity
+    mapper-package: com.yang.demo.mapper
+    mapper-locations: classpath:mybatis/mapper

@@ -1,0 +1,17 @@
+#如果要启用redis,在application.yml中spring.profiles.active添加一个redis列表对象
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 8
+        min-idle: 0
+        max-wait: 10000ms
+
+
+

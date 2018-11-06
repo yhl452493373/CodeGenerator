@@ -1,0 +1,14 @@
+#验证码设置
+captcha:
+  cacheName: captcha
+  cookieName: captcha-cache
+  cookieMaxAge: -1
+  captchaBackgroundColor: Color.WHITE
+  captchaSize: 4
+  captchaLineCount: 10
+  captchaPointCount: 10
+  captchaWidth: 80
+  captchaHeight: 40
+  captchaFontSize: 20
+  captchaHasBorder: false
+  captchaIsColorful: true

@@ -1,0 +1,215 @@
+{
+  "groups": [
+    {
+      "sourceType": "com.h3w.bean.DataSourceGroup",
+      "name": "datasource",
+      "type": "com.h3w.bean.DataSourceGroup"
+    },
+    {
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "name": "captcha",
+      "type": "com.h3w.bean.CaptchaProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "datasource.config-package",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceGroup",
+      "description": "放置.java格式配置文件的位置."
+    },
+    {
+      "name": "datasource.datasource-properties",
+      "type": "com.h3w.bean.DataSourceProperties",
+      "sourceType": "com.h3w.bean.DataSourceGroup",
+      "description": "单个数据源配置属性."
+    },
+    {
+      "name": "datasource.datasource-properties.url",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "jdbc链接地址."
+    },
+    {
+      "name": "datasource.datasource-properties.username",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库用户名."
+    },
+    {
+      "name": "datasource.datasource-properties.password",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库密码."
+    },
+    {
+      "name": "datasource.datasource-properties.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库驱动."
+    },
+    {
+      "name": "datasource.datasource-properties.type-aliases-package",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "实体包所在目录,便于Mapper.xml文件中使用实体属性."
+    },
+    {
+      "name": "datasource.datasource-properties.mapper-package",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "Mapper.java文件所在位置."
+    },
+    {
+      "name": "datasource.datasource-properties.mapper-locations",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "Mapper.xml文件所在位置."
+    },
+    {
+      "name": "datasource.datasource-properties-list",
+      "type": "java.util.List<com.h3w.bean.DataSourceProperties>",
+      "sourceType": "com.h3w.bean.DataSourceGroup",
+      "description": "多数据源配置属性列表."
+    },
+    {
+      "name": "datasource.datasource-properties-list.name",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据源名称."
+    },
+    {
+      "name": "datasource.datasource-properties-list.primary",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "是否为主数据源.",
+      "defaultValue": false
+    },
+    {
+      "name": "datasource.datasource-properties-list.url",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "jdbc链接地址."
+    },
+    {
+      "name": "datasource.datasource-properties-list.username",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库用户名."
+    },
+    {
+      "name": "datasource.datasource-properties-list.password",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库密码."
+    },
+    {
+      "name": "datasource.datasource-properties-list.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "数据库驱动."
+    },
+    {
+      "name": "datasource.datasource-properties-list.type-aliases-package",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "实体包所在目录,便于Mapper.xml文件中使用实体属性."
+    },
+    {
+      "name": "datasource.datasource-properties-list.mapper-package",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "Mapper.java文件所在位置."
+    },
+    {
+      "name": "datasource.datasource-properties-list.mapper-locations",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.DataSourceProperties",
+      "description": "Mapper.xml文件所在位置."
+    },
+    {
+      "name": "captcha.cache-name",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码的cookie名称.",
+      "defaultValue": "captcha"
+    },
+    {
+      "name": "captcha.cookie-name",
+      "type": "java.lang.String",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码的cookie的缓存名称.",
+      "defaultValue": "captcha-cache"
+    },
+    {
+      "name": "captcha.cookie-max-age",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码的cooke的有效时间.",
+      "defaultValue": -1
+    },
+    {
+      "name": "captcha.captcha-background-color",
+      "type": "java.awt.Color",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码的背景色.",
+      "defaultValue": "Color.WHITE"
+    },
+    {
+      "name": "captcha.captcha-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码位数.",
+      "defaultValue": 4
+    },
+    {
+      "name": "captcha.captcha-line-count",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码干扰线数量.",
+      "defaultValue": 10
+    },
+    {
+      "name": "captcha.captcha-point-count",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码干扰点数量.",
+      "defaultValue": 10
+    },
+    {
+      "name": "captcha.captcha-width",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码图片宽度.",
+      "defaultValue": 80
+    },
+    {
+      "name": "captcha.captcha-height",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码图片高度.",
+      "defaultValue": 40
+    },
+    {
+      "name": "captcha.captcha-font-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证码图片字号.",
+      "defaultValue": 20
+    },
+    {
+      "name": "captcha.captcha-has-border",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证图片是否有边框.",
+      "defaultValue": false
+    },
+    {
+      "name": "captcha.captcha-is-colorful",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.h3w.bean.CaptchaProperties",
+      "description": "默认验证图片是否为彩色.",
+      "defaultValue": true
+    }
+  ]
+}
