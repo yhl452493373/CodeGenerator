@@ -56,7 +56,7 @@
         });
     }
 ```
-###DataSourceGeneratorConfig有以下几个属性,均可通过set设置,其他属性建议不更改
+### DataSourceGeneratorConfig有以下几个属性,均可通过set设置,其他属性建议不更改 ###
 ```java
     //全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存:true - 启用,false - 不启用.作用同mybatis plus的cacheEnabled
     private Boolean cacheEnabled = false;
@@ -72,7 +72,7 @@
     private Boolean fileOverride = false;
 ```
 **fileOverride - 属性请一定注意.此属性建议项目刚开始时使用true,之后要补充新表相关mapper,service等的时候改为false,避免之前的代码被覆盖**
-######单数据源application-single-datasource.yml配置参考
+###### 单数据源application-single-datasource.yml配置参考 ######
 ```yaml
     #单数据源，与多数据源列表二选一。如果既设置了单数据源，又设置了多数据源，则以多数据源为准
     #如果要启用,则在application.yml中spring.profiles.active添加一个single-datasource列表对象
@@ -95,7 +95,7 @@
         #存放对应mapper.xml的包
         mapper-locations: classpath:mybatis/mapper
 ```
-######多数据源application-multiple-datasource.yml配置参考
+###### 多数据源application-multiple-datasource.yml配置参考 ######
 ```yaml
     #多数据源列表，与单数据源二选一。如果既设置了单数据源，又设置了多数据源，则以多数据源为准
     #如果要启用,则在application.yml中spring.profiles.active添加一个multiple-datasource列表对象
@@ -125,7 +125,7 @@
         mapper-package: com.yang.demo.mapper
         mapper-locations: classpath:mybatis/mapper
 ```
-###CodeGeneratorConfig有以下一些属性,均通过set设置,其他属性不建议修改
+### CodeGeneratorConfig有以下一些属性,均通过set设置,其他属性不建议修改 ###
 ```java
     //数据源配置
     //生成实体的数据库的链接地址,根据需要设置
