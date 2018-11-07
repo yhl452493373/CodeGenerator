@@ -33,7 +33,7 @@ public class CodeGeneratorConfig {
     //文件存在时是否覆盖
     private Boolean fileOverride = false;
     //数据库中表的前缀，可以为null
-    private String tablePrefix = null;
+    private String[] tablePrefix = null;
     //要生成代码的表名
     private String[] tableInclude = {};
     //不生成代码的表名
@@ -237,11 +237,11 @@ public class CodeGeneratorConfig {
         this.fileOverride = fileOverride;
     }
 
-    public String getTablePrefix() {
+    public String[] getTablePrefix() {
         return tablePrefix;
     }
 
-    public void setTablePrefix(String tablePrefix) {
+    public void setTablePrefix(String[] tablePrefix) {
         this.tablePrefix = tablePrefix;
     }
 

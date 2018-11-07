@@ -388,7 +388,7 @@ public class CodeGenerator {
 //        strategy.setSuperControllerClass(pc.getParent() + StringPool.DOT + "common" + StringPool.DOT + "BaseController");
 
         strategy.setControllerMappingHyphenStyle(false);
-        if (StringUtils.isNotEmpty(cgc.getTablePrefix())) {
+        if (cgc.getTablePrefix() != null && cgc.getTablePrefix().length != 0) {
             strategy.setTablePrefix(cgc.getTablePrefix());
         }
         mpg.setStrategy(strategy);
