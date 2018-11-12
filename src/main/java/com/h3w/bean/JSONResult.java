@@ -1,9 +1,14 @@
 package com.h3w.bean;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializeFilter;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -123,5 +128,119 @@ public class JSONResult extends JSONObject {
 
     public Long count() {
         return this.getLong(JSON_KEY_COUNT);
+    }
+
+    /**
+     * 过滤属性并返回JSON
+     * <p>
+     * 使用示例:
+     * JSONResult json = JSONResult.init();
+     * json.data(object,JSONResult.Pattern.INCLUDE,"id","name")
+     * </p>
+     *
+     * @param data 对象
+     * @param keys 要过滤的属性
+     */
+    public JSONResult data(Object data, Pattern pattern, String... keys) {
+        Class clazz = data.getClass();
+        List<String> keyList = Arrays.asList(keys);
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
+        if (pattern.equals(Pattern.EXCLUDE))
+            filter.getExcludes().addAll(keyList);
+        else if (pattern.equals(Pattern.INCLUDE))
+            filter.getIncludes().addAll(keyList);
+        JSON json = JSON.parseObject(JSON.toJSONString(data, filter));
+        this.data(json);
+        return this;
+    }
+
+    /**
+     * 过滤属性并返回JSON
+     * <p>
+     * 使用示例:
+     * JSONResult json = JSONResult.init();
+     * JSONResult.PropertyFilter[] propertyFilters = new JSONResult.PropertyFilter[]{
+     * new JSONResult.PropertyFilter(JSONResult.Pattern.INCLUDE, BeanA.class, "id", "name", "beanB"),
+     * new JSONResult.PropertyFilter(JSONResult.Pattern.INCLUDE, BeanB.class, "id", "name")
+     * };
+     * json.data(object,propertyFilters)
+     * </p>
+     *
+     * @param data            对象
+     * @param propertyFilters 属性过滤集合
+     */
+    public JSONResult data(Object data, PropertyFilter... propertyFilters) {
+        SerializeFilter[] filters = new SerializeFilter[propertyFilters.length];
+        for (int i = 0; i < propertyFilters.length; i++) {
+            PropertyFilter propertyFilter = propertyFilters[i];
+            SimplePropertyPreFilter filter = new SimplePropertyPreFilter(propertyFilter.getClazz());
+            Pattern pattern = propertyFilter.getPattern();
+            String[] keys = propertyFilter.getKeys();
+            filter.getExcludes().addAll(Arrays.asList(keys));
+            filter.getIncludes().addAll(Arrays.asList(keys));
+            filters[i] = filter;
+        }
+        String jsonString = JSON.toJSONString(data, filters);
+        JSON json;
+        if (data instanceof Iterable) {
+            json = JSON.parseArray(jsonString);
+        } else {
+            json = JSON.parseObject(jsonString);
+        }
+        this.data(json);
+        return this;
+    }
+
+    public enum Pattern {
+        /**
+         * 包含模式
+         */
+        INCLUDE,
+        /**
+         * 排除模式
+         */
+        EXCLUDE
+    }
+
+    /**
+     * 属性过滤封装,主要用于对不同对象的属性过滤
+     */
+    public static class PropertyFilter {
+        Pattern pattern;//模式:是包含还是排除
+        Class clazz;//对应是哪个对象
+        String[] keys;//要包含或者排除出的属性名
+
+        public PropertyFilter() {
+        }
+
+        public PropertyFilter(Pattern pattern, Class clazz, String... keys) {
+            this.pattern = pattern;
+            this.clazz = clazz;
+            this.keys = keys;
+        }
+
+        public Pattern getPattern() {
+            return pattern;
+        }
+
+        public void setPattern(Pattern pattern) {
+            this.pattern = pattern;
+        }
+
+        public Class getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class clazz) {
+            this.clazz = clazz;
+        }
+
+        public String[] getKeys() {
+            return keys;
+        }
+
+        public void setKeys(String... keys) {
+            this.keys = keys;
+        }
     }
 }
