@@ -1,4 +1,4 @@
-package com.h3w.config;
+package com.github.yhl452493373.config;
 
 import com.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.TemplateException;

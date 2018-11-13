@@ -1,4 +1,4 @@
-package com.h3w.generator;
+package com.github.yhl452493373.generator;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -11,8 +11,8 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
-import com.h3w.bean.DataSourceGroup;
-import com.h3w.bean.DataSourceProperties;
+import com.github.yhl452493373.bean.DataSourceGroup;
+import com.github.yhl452493373.bean.DataSourceProperties;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

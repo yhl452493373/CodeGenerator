@@ -1,4 +1,4 @@
-package com.h3w.utils;
+package com.github.yhl452493373.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;

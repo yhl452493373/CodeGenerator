@@ -1,6 +1,6 @@
 package ${cfg.packageConfig};
 
-import com.h3w.shiro.ShiroCaptcha;
+import ShiroCaptcha;
 <#if tableInfoList??>
     <#list tableInfoList as tempTableInfo>
 import ${package.Service}.${tempTableInfo.serviceName};

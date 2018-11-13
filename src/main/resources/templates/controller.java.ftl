@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.h3w.bean.JSONResult;
+import JSONResult;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>

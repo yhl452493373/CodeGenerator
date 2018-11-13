@@ -1,4 +1,4 @@
-package com.h3w.config;
+package com.github.yhl452493373.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

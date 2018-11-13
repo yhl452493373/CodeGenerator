@@ -1,12 +1,12 @@
-package com.h3w.config;
+package com.github.yhl452493373.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.h3w.bean.CaptchaProperties;
-import com.h3w.bean.DataSourceGroup;
-import com.h3w.shiro.ShiroCaptcha;
+import com.github.yhl452493373.bean.CaptchaProperties;
+import com.github.yhl452493373.shiro.ShiroCaptcha;
+import com.github.yhl452493373.bean.DataSourceGroup;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

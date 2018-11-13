@@ -1,4 +1,4 @@
-package com.h3w.bean;
+package com.github.yhl452493373.bean;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;

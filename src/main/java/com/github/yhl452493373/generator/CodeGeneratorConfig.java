@@ -1,4 +1,4 @@
-package com.h3w.generator;
+package com.github.yhl452493373.generator;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;

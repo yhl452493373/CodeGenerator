@@ -1,6 +1,6 @@
-package com.h3w.bean;
+package com.github.yhl452493373.bean;
 
-import com.h3w.shiro.ShiroCaptcha;
+import com.github.yhl452493373.shiro.ShiroCaptcha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

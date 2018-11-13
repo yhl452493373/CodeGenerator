@@ -1,11 +1,11 @@
-package com.h3w.shiro;
+package com.github.yhl452493373.shiro;
 
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.h3w.bean.CaptchaProperties;
-import com.h3w.utils.CaptchaUtils;
-import com.h3w.utils.CommonUtils;
-import com.h3w.utils.CookieUtils;
+import com.github.yhl452493373.bean.CaptchaProperties;
+import com.github.yhl452493373.utils.CaptchaUtils;
+import com.github.yhl452493373.utils.CommonUtils;
+import com.github.yhl452493373.utils.CookieUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.MapCache;
 import org.slf4j.Logger;
