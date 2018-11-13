@@ -473,6 +473,10 @@ public class CodeGenerator {
                             ) : "") + "DataSourceConfig" + StringPool.DOT_JAVA;
             File configFile = new File(filePath);
             try {
+                if (!configFile.getParentFile().exists()) {
+                    //noinspection ResultOfMethodCallIgnored
+                    configFile.getParentFile().mkdirs();
+                }
                 //加载模版文件
                 Template template = configuration.getTemplate(dsgc.getTemplateDatasource());
                 if (dsgc.getFileOverride() || !configFile.exists()) {
