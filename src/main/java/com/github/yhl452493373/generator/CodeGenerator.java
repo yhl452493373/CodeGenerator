@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Mybatis代码生成器
  */
-@SuppressWarnings({"FieldCanBeLocal", "Duplicates", "unused", "UnusedReturnValue"})
+@SuppressWarnings({"FieldCanBeLocal", "Duplicates", "unused", "UnusedReturnValue", "WeakerAccess"})
 public class CodeGenerator {
     private static Logger logger = LoggerFactory.getLogger(CodeGenerator.class);
 
@@ -402,7 +402,7 @@ public class CodeGenerator {
                         " \"{}\",\n" +
                         " \"{}\",\n" +
                         " \"{}\"}",
-                "com.h3w.config",
+                "com.github.yhl452493373.config",
                 pc.getParent() + StringPool.DOT + cgc.getPackageConfig(),
                 pc.getParent() + StringPool.DOT + pc.getMapper(),
                 pc.getParent() + StringPool.DOT + pc.getService(),

@@ -5,4 +5,4 @@ spring:
     - single-datasource
 logging:
   level:
-    com.h3w: info
+    com.github.yhl452493373: info

@@ -2,7 +2,7 @@
 #如果要启用,则在application.yml中spring.profiles.active添加一个multiple-datasource列表对象
 datasource:
   #存放Config.java的配置文件的包
-  config-package: com.yang.demo.config
+  config-package: com.github.yhl452493373.demo.config
   datasource-properties-list:
   - name: psm
     primary: true
@@ -10,14 +10,14 @@ datasource:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    type-aliases-package: com.yang.demo.entity
-    mapper-package: com.yang.demo.mapper
+    type-aliases-package: com.github.yhl452493373.demo.entity
+    mapper-package: com.github.yhl452493373.demo.mapper
     mapper-locations: classpath:mybatis/mapper
   - name: ime511
     url: jdbc:mysql://localhost:3306/ime511?useUnicode=true&useSSL=false&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    type-aliases-package: com.yang.demo.entity
-    mapper-package: com.yang.demo.mapper
+    type-aliases-package: com.github.yhl452493373.demo.entity
+    mapper-package: com.github.yhl452493373.demo.mapper
     mapper-locations: classpath:mybatis/mapper
