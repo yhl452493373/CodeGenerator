@@ -1,4 +1,12 @@
 # code-generator
+maven引用
+```xml
+    <dependency>
+        <groupId>com.github.yhl452493373</groupId>
+        <artifactId>code-generator</artifactId>
+        <version>1.1</version>
+    </dependency>
+```
 使用代码:
 ```java
     //单数据源
