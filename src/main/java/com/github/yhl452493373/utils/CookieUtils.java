@@ -100,47 +100,11 @@ public final class CookieUtils {
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
             if (cookieMaxAge > 0) cookie.setMaxAge(cookieMaxAge);
-            if (null != request) {// 设置域名的cookie
-                String domainName = getDomainName(request);
-                if (!"localhost".equals(domainName) || "127.0.0.1".equals(domainName)) {
-                    cookie.setDomain(domainName);
-                }
-            }
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 得到cookie的域名
-     */
-    private static String getDomainName(HttpServletRequest request) {
-        String domainName;
-        String serverName = request.getRequestURL().toString();
-        if (serverName.equals("")) {
-            domainName = "";
-        } else {
-            final int end = serverName.lastIndexOf("/");
-            serverName = serverName.substring(0, end);
-            final String[] domains = serverName.split("\\.");
-            int len = domains.length;
-            if (len > 3) {
-                // www.xxx.com.cn
-                domainName = "." + domains[len - 3] + "." + domains[len - 2] + "." + domains[len - 1];
-            } else if (len > 1) {
-                // xxx.com or xxx.cn
-                domainName = "." + domains[len - 2] + "." + domains[len - 1];
-            } else {
-                domainName = serverName;
-            }
-        }
-        if (domainName.indexOf(":") > 0) {
-            String[] ary = domainName.split(":");
-            domainName = ary[0];
-        }
-        return domainName;
     }
 
     /**
@@ -169,12 +133,6 @@ public final class CookieUtils {
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
             if (cookieMaxAge > 0) cookie.setMaxAge(cookieMaxAge);
-            if (null != request) {// 设置域名的cookie
-                String domainName = getDomainName(request);
-                if (!"localhost".equals(domainName) || "127.0.0.1".equals(domainName)) {
-                    cookie.setDomain(domainName);
-                }
-            }
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
