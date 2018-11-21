@@ -407,6 +407,8 @@ public class CodeGenerator {
                 pc.getParent() + StringPool.DOT + pc.getMapper(),
                 pc.getParent() + StringPool.DOT + pc.getService(),
                 pc.getParent() + StringPool.DOT + pc.getController());
+        if (!cgc.getFileOverride())
+            logger.warn("请将新生成的Service.java添加到{}", pc.getParent() + StringPool.DOT + cgc.getPackageConfig() + "的ServiceConfig.java文件中");
         logger.warn("\n");
     }
 
