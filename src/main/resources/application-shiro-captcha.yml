@@ -3,7 +3,7 @@ captcha:
   cacheName: captcha
   cookieName: captcha-cache
   cookieMaxAge: -1
-  captchaBackgroundColor: Color.WHITE
+  captchaBackgroundColor: '#ffffff'
   captchaSize: 4
   captchaLineCount: 10
   captchaPointCount: 10

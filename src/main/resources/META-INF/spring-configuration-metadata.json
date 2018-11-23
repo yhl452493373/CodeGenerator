@@ -150,10 +150,10 @@
     },
     {
       "name": "captcha.captcha-background-color",
-      "type": "java.awt.Color",
+      "type": "java.lang.String",
       "sourceType": "com.github.yhl452493373.bean.CaptchaProperties",
       "description": "默认验证码的背景色.",
-      "defaultValue": "Color.WHITE"
+      "defaultValue": "#FFFFFF"
     },
     {
       "name": "captcha.captcha-size",

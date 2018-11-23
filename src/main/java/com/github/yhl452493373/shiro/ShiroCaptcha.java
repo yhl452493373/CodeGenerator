@@ -30,7 +30,7 @@ public class ShiroCaptcha implements InitializingBean {
     private String cacheName;
     private String cookieName;
     private Integer cookieMaxAge;
-    private Color captchaBackgroundColor;
+    private String captchaBackgroundColor;
     private Integer captchaSize;
     private Integer captchaLineCount;
     private Integer captchaPointCount;
@@ -105,7 +105,8 @@ public class ShiroCaptcha implements InitializingBean {
             cookieValue = CommonUtils.uuid();
         }
         //生成验证码，包括图像和字符串
-        Map<String, Object> captchaMap = CaptchaUtils.getCaptchaImage(captchaBackgroundColor, captchaSize, captchaWidth, captchaHeight, captchaFontSize, captchaLineCount, captchaPointCount, captchaHasBorder, captchaIsColorful, CaptchaUtils.ComplexLevel.HARD);
+        Color color = Color.decode(captchaBackgroundColor);
+        Map<String, Object> captchaMap = CaptchaUtils.getCaptchaImage(color, captchaSize, captchaWidth, captchaHeight, captchaFontSize, captchaLineCount, captchaPointCount, captchaHasBorder, captchaIsColorful, CaptchaUtils.ComplexLevel.HARD);
         //不存在cookie时设置cookie
         if (!hasCookie) {
             CookieUtils.setCookie(request, response, cookieName, cookieValue, cookieMaxAge);

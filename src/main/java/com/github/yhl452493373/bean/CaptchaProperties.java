@@ -4,8 +4,6 @@ import com.github.yhl452493373.shiro.ShiroCaptcha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-
 public class CaptchaProperties {
     public static Logger logger = LoggerFactory.getLogger(ShiroCaptcha.class);
     /**
@@ -21,9 +19,9 @@ public class CaptchaProperties {
      */
     public static Integer DEFAULT_COOKIE_MAX_AGE = -1;
     /**
-     * 默认验证码的背景色
+     * 默认验证码的背景色:白色
      */
-    public static Color DEFAULT_CAPTCHA_BACKGROUND_COLOR = Color.WHITE;
+    public static String DEFAULT_CAPTCHA_BACKGROUND_COLOR = "#FFFFFF";
     /**
      * 默认验证码位数
      */
@@ -60,7 +58,7 @@ public class CaptchaProperties {
     private String cacheName = DEFAULT_CACHE_NAME;
     private String cookieName = DEFAULT_COOKIE_NAME;
     private Integer cookieMaxAge = DEFAULT_COOKIE_MAX_AGE;
-    private Color captchaBackgroundColor = DEFAULT_CAPTCHA_BACKGROUND_COLOR;
+    private String captchaBackgroundColor = DEFAULT_CAPTCHA_BACKGROUND_COLOR;
     private Integer captchaSize = DEFAULT_CAPTCHA_SIZE;
     private Integer captchaLineCount = DEFAULT_CAPTCHA_LINE_COUNT;
     private Integer captchaPointCount = DEFAULT_CAPTCHA_POINT_COUNT;
@@ -94,11 +92,11 @@ public class CaptchaProperties {
         this.cookieMaxAge = cookieMaxAge;
     }
 
-    public Color getCaptchaBackgroundColor() {
+    public String getCaptchaBackgroundColor() {
         return captchaBackgroundColor;
     }
 
-    public void setCaptchaBackgroundColor(Color captchaBackgroundColor) {
+    public void setCaptchaBackgroundColor(String captchaBackgroundColor) {
         this.captchaBackgroundColor = captchaBackgroundColor;
     }
 

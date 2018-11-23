@@ -71,7 +71,7 @@ public class ${name!?cap_first!""}DataSourceConfig {
         final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
         sessionFactory.setDataSource(${name!}${name???string("D","d")}ataSource);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(${name!?cap_first!""}DataSourceConfig.MAPPER_LOCATION));
-        sessionFactory.setGlobalConfig(new GlobalConfig().setRefresh(true).setDbConfig(new GlobalConfig.DbConfig().setIdType(IdType.UUID)));
+        sessionFactory.setGlobalConfig(new GlobalConfig().setDbConfig(new GlobalConfig.DbConfig().setIdType(IdType.UUID)));
         MybatisConfiguration configuration = new MybatisConfiguration();
         <#if cacheEnabled>
         configuration.setCacheEnabled(true);
