@@ -4,7 +4,7 @@ maven引用
     <dependency>
         <groupId>com.github.yhl452493373</groupId>
         <artifactId>code-generator</artifactId>
-        <version>1.1.3</version>
+        <version>1.1.4</version>
     </dependency>
 ```
 使用代码:
