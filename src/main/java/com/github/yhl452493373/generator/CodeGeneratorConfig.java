@@ -106,6 +106,18 @@ public class CodeGeneratorConfig {
     private String userTemplateServiceConfig = "serviceConfig.java";
     //目录分隔符，不需要修改
     private String fileSeparator = File.separator;
+    //实体基类上的字段
+    private String[] superEntityColumns;
+    //实体基类
+    private String superEntityClass;
+    //controller基类
+    private String superControllerClass;
+    //mapper基类,会覆盖自动生成的mapper上的BaseMapper
+    private String superMapperClass = "com.baomidou.mybatisplus.core.mapper.BaseMapper";
+    //service基类,会覆盖自动生成的service上的IService
+    private String superServiceClass = "com.baomidou.mybatisplus.extension.service.IService";
+    //serviceImpl基类,会覆盖自动生成的SeriviceImpl上的ServiceImpl
+    private String superServiceImplClass = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl";
 
     public CodeGeneratorConfig() {
     }
@@ -547,5 +559,53 @@ public class CodeGeneratorConfig {
 
     public void setUserTemplateServiceConfig(String userTemplateServiceConfig) {
         this.userTemplateServiceConfig = userTemplateServiceConfig;
+    }
+
+    public String[] getSuperEntityColumns() {
+        return superEntityColumns;
+    }
+
+    public void setSuperEntityColumns(String... superEntityColumns) {
+        this.superEntityColumns = superEntityColumns;
+    }
+
+    public String getSuperEntityClass() {
+        return superEntityClass;
+    }
+
+    public void setSuperEntityClass(String superEntityClass) {
+        this.superEntityClass = superEntityClass;
+    }
+
+    public String getSuperControllerClass() {
+        return superControllerClass;
+    }
+
+    public void setSuperControllerClass(String superControllerClass) {
+        this.superControllerClass = superControllerClass;
+    }
+
+    public String getSuperMapperClass() {
+        return superMapperClass;
+    }
+
+    public void setSuperMapperClass(String superMapperClass) {
+        this.superMapperClass = superMapperClass;
+    }
+
+    public String getSuperServiceClass() {
+        return superServiceClass;
+    }
+
+    public void setSuperServiceClass(String superServiceClass) {
+        this.superServiceClass = superServiceClass;
+    }
+
+    public String getSuperServiceImplClass() {
+        return superServiceImplClass;
+    }
+
+    public void setSuperServiceImplClass(String superServiceImplClass) {
+        this.superServiceImplClass = superServiceImplClass;
     }
 }

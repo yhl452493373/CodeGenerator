@@ -236,4 +236,16 @@ maven引用
     private String userTemplateRedisShiroSessionDAO = "redisShiroSessionDAO.java";
     //自定义的service注入类模板, 一般建议不动
     private String userTemplateServiceConfig = "serviceConfig.java";
+    //实体基类上的字段
+    private String[] superEntityColumns;
+    //实体基类
+    private String superEntityClass;
+    //controller基类
+    private String superControllerClass;
+    //mapper基类,会覆盖自动生成的mapper上的BaseMapper
+    private String superMapperClass = "com.baomidou.mybatisplus.core.mapper.BaseMapper";
+    //service基类,会覆盖自动生成的service上的IService
+    private String superServiceClass = "com.baomidou.mybatisplus.extension.service.IService";
+    //serviceImpl基类,会覆盖自动生成的SeriviceImpl上的ServiceImpl
+    private String superServiceImplClass = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl";
 ```

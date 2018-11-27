@@ -382,10 +382,13 @@ public class CodeGenerator {
             strategy.setExclude(cgc.getTableExclude());
         }
 
-        //生成实体、controller要继承的公共类，带完整包名
-//        strategy.setSuperEntityColumns("id");
-//        strategy.setSuperEntityClass(pc.getParent() + StringPool.DOT + "common" + StringPool.DOT + "BaseEntity");
-//        strategy.setSuperControllerClass(pc.getParent() + StringPool.DOT + "common" + StringPool.DOT + "BaseController");
+        //生成实体,controller,mapper,service,serviceImpl要继承的公共类，带完整包名
+        strategy.setSuperEntityColumns(cgc.getSuperEntityColumns());
+        strategy.setSuperEntityClass(cgc.getSuperEntityClass());
+        strategy.setSuperControllerClass(cgc.getSuperControllerClass());
+        strategy.setSuperMapperClass(cgc.getSuperMapperClass());
+        strategy.setSuperServiceClass(cgc.getSuperServiceClass());
+        strategy.setSuperServiceImplClass(cgc.getSuperServiceImplClass());
 
         strategy.setControllerMappingHyphenStyle(false);
         if (cgc.getTablePrefix() != null && cgc.getTablePrefix().length != 0) {
