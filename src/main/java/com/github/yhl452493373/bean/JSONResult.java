@@ -149,9 +149,24 @@ public class JSONResult extends JSONObject {
             filter.getExcludes().addAll(keyList);
         else if (pattern.equals(Pattern.INCLUDE))
             filter.getIncludes().addAll(keyList);
-        JSON json = JSON.parseObject(JSON.toJSONString(data, filter));
-        this.data(json);
+        stringToJSON(data, JSON.toJSONString(data, filter));
         return this;
+    }
+
+    /**
+     * json字符串转为json
+     *
+     * @param object 字符串来源对象实例
+     * @param string 字符串
+     */
+    private void stringToJSON(Object object, String string) {
+        JSON json;
+        if (object instanceof Iterable) {
+            json = JSON.parseArray(string);
+        } else {
+            json = JSON.parseObject(string);
+        }
+        this.data(json);
     }
 
     /**
@@ -180,14 +195,7 @@ public class JSONResult extends JSONObject {
             filter.getIncludes().addAll(Arrays.asList(keys));
             filters[i] = filter;
         }
-        String jsonString = JSON.toJSONString(data, filters);
-        JSON json;
-        if (data instanceof Iterable) {
-            json = JSON.parseArray(jsonString);
-        } else {
-            json = JSON.parseObject(jsonString);
-        }
-        this.data(json);
+        stringToJSON(data, JSON.toJSONString(data, filters));
         return this;
     }
 

@@ -18,14 +18,14 @@ public class MybatisPlusCodeGenerate {
     //单数据源
     private static void singleDataSource() {
         DataSourceGeneratorConfig dsgc = new DataSourceGeneratorConfig();
-        dsgc.setFileOverride(true);
+        dsgc.setFileOverride(false);
         dsgc.setCacheEnabled(true);
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         CodeGeneratorConfig cgc = new CodeGeneratorConfig(
                 "psm", new String[]{"employee"}, "com.github.yhl452493373.demo"
         );
-        cgc.setFileOverride(true);
+        cgc.setFileOverride(false);
         cgc.setEnableCache(true);
         cgc.setEnableRedis(true);
         CodeGenerator.baseCodeGenerate(cgc);
