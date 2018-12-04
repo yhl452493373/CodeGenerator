@@ -153,14 +153,8 @@ public class CommonUtils {
         if (list == null) return idList;
         for (T t : list) {
             Class clazz = t.getClass();
-            Method getId;
-            try {
-                getId = clazz.getDeclaredMethod("getId");
-                String id = (String) getId.invoke(t);
-                idList.add(id);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            String id = (String) executeMethod(t, clazz, "getId", null, null);
+            idList.add(id);
         }
         return idList;
     }
@@ -181,16 +175,43 @@ public class CommonUtils {
         }
         for (T t : list) {
             Class clazz = t.getClass();
-            Method getId;
-            try {
-                getId = clazz.getDeclaredMethod(methodName);
-                String id = (String) getId.invoke(t);
-                idList.add(id);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            String id = (String) executeMethod(t, clazz, methodName, null, null);
+            idList.add(id);
         }
         return idList;
+    }
+
+    /**
+     * 执行某个类的某个方法
+     *
+     * @param t              类的实例
+     * @param clazz          类
+     * @param methodName     方法
+     * @param parameterTypes 获取方法名时的条件:参数类型,可以为null
+     * @param args           执行方法时的参数,可以为null
+     * @return 执行结果
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Object executeMethod(T t, Class clazz, String methodName, Class<?>[] parameterTypes, Object[] args) {
+        Method method;
+        Object result = null;
+        try {
+            if (parameterTypes == null || parameterTypes.length == 0)
+                method = clazz.getMethod(methodName);
+            else
+                method = clazz.getMethod(methodName, parameterTypes);
+            if (args == null || args.length == 0)
+                result = method.invoke(t);
+            else
+                result = method.invoke(t, args);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            Class supperClazz = clazz.getSuperclass();
+            if (supperClazz != null)
+                executeMethod(t, supperClazz, methodName, parameterTypes, args);
+            else
+                e.printStackTrace();
+        }
+        return result;
     }
 
     /**
@@ -252,7 +273,7 @@ public class CommonUtils {
     /**
      * 分隔多个id字符串为id列表
      *
-     * @param ids     多个id字符串
+     * @param ids      多个id字符串
      * @param splitter 分隔符
      * @return id列表
      */
