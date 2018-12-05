@@ -1,5 +1,6 @@
 package ${configPackage};
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
