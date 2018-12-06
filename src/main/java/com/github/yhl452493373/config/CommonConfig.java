@@ -44,13 +44,9 @@ public class CommonConfig {
         FastJsonHttpMessageConverter fastConvert = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.WriteNullNumberAsZero,
-                SerializerFeature.WriteNullListAsEmpty,
-                SerializerFeature.WriteMapNullValue,
                 SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.DisableCircularReferenceDetect);
-        fastJsonConfig.setDateFormat("yyyy-MM-dd hh:mm:ss");
+        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         //处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
