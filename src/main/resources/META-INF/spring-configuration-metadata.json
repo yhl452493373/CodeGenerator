@@ -210,6 +210,13 @@
       "sourceType": "com.github.yhl452493373.bean.CaptchaProperties",
       "description": "默认验证图片是否为彩色.",
       "defaultValue": true
+    },
+    {
+      "name": "spring.fastjson.date-format",
+      "type": "java.lang.String",
+      "sourceType": "com.alibaba.fastjson.support.config.FastJsonConfig",
+      "description": "默认的fastjson日期格式.",
+      "defaultValue": "yyyy-MM-dd HH:mm:ss"
     }
   ]
 }

@@ -8,6 +8,7 @@ package com.jagregory.shiro.freemarker;
 import com.jagregory.shiro.tags.HasAnyPermissionsTag;
 import freemarker.template.SimpleHash;
 
+@SuppressWarnings("deprecation")
 public class ShiroTags extends SimpleHash {
     public ShiroTags() {
         this.put("authenticated", new AuthenticatedTag());

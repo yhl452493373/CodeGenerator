@@ -3,8 +3,11 @@ package com.github.yhl452493373.bean;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializeFilter;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.github.yhl452493373.config.CommonConfig;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -149,7 +152,7 @@ public class JSONResult extends JSONObject {
             filter.getExcludes().addAll(keyList);
         else if (pattern.equals(Pattern.INCLUDE))
             filter.getIncludes().addAll(keyList);
-        stringToJSON(data, JSON.toJSONString(data, filter));
+        stringToJSON(data, JSON.toJSONString(data, SerializeConfig.globalInstance, new SimplePropertyPreFilter[]{filter}, CommonConfig.getDateFormat(), JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.DisableCircularReferenceDetect));
         return this;
     }
 
@@ -195,7 +198,7 @@ public class JSONResult extends JSONObject {
             filter.getIncludes().addAll(Arrays.asList(keys));
             filters[i] = filter;
         }
-        stringToJSON(data, JSON.toJSONString(data, filters));
+        stringToJSON(data, JSON.toJSONString(data, SerializeConfig.globalInstance, filters, CommonConfig.getDateFormat(), JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.DisableCircularReferenceDetect));
         return this;
     }
 

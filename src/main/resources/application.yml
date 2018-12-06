@@ -1,4 +1,6 @@
 spring:
+  fastjson:
+    date-format: 'yyyy-MM-dd HH:mm:ss'
   profiles:
     active:
     - redis
