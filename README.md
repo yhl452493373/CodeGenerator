@@ -4,10 +4,11 @@ maven引用
     <dependency>
         <groupId>com.github.yhl452493373</groupId>
         <artifactId>code-generator</artifactId>
-        <version>1.1.10</version>
+        <version>1.1.11</version>
     </dependency>
 ```
 使用代码:
+## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.tableInclude采用可变参数的形式,不需要通过new String\[\]{}的形式,直接字符串方式写即可.具体增加的构造方法,请参考[CodeGeneratorConfig源码](com/github/yhl452493373/generator/CodeGeneratorConfig.java)
 ```java
     //单数据源
     private static void singleDataSource() {
@@ -17,20 +18,15 @@ maven引用
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                "psm", new String[]{"employee"}, "com.yang.demo"
-        );
-        cgc.setFileOverride(true);
-        cgc.setEnableCache(true);
-        cgc.setEnableRedis(true);
+                "psm", "com.yang.demo", "employee"
+        ).setFileOverride(true).setEnableCache(true).setEnableRedis(true);
         CodeGenerator.baseCodeGenerate(cgc);
     }
 
     //多数据源
     private static void multipleDataSource() {
         DataSourceGeneratorConfig dsgc = new DataSourceGeneratorConfig();
-        dsgc.setMultiple(true);
-        dsgc.setFileOverride(true);
-        dsgc.setCacheEnabled(true);
+        dsgc.setMultiple(true).setFileOverride(true).setCacheEnabled(true);
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         //储存每个数据源需要生成的表名
@@ -44,11 +40,8 @@ maven引用
 
         dataSourceMap.keySet().forEach(key -> {
             CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                    key, dataSourceMap.get(key), "com.yang.demo"
-            );
-            cgc.setFileOverride(true);
-            cgc.setEnableCache(true);
-            cgc.setEnableRedis(true);
+                    key, "com.yang.demo", dataSourceMap.get(key)
+            ).setFileOverride(true).setEnableCache(true).setEnableRedis(true);
 
             //psm数据源的包配置
             cgc.setPackageController(cgc.getPackageController() + StringPool.DOT + key);
@@ -142,6 +135,8 @@ maven引用
     private String port = "3306";
     //生成实体的数据库的数据库名,根据需要设置
     private String database;
+    //时区,mysql 6.0以上时需要设置.中国地区直接设置为GMT+8即可,其他地区根据实际设置
+    private String serverTimezone;
     //如果不是mysql，需要根据实际修改拼接字符串.如果是则大部分情况不用管它,除非要重新增加其他链接参数,可以通过此属性自行拼接
     private String dataSourceUrl;
     //如果不是mysql，需要根据实际修改驱动.

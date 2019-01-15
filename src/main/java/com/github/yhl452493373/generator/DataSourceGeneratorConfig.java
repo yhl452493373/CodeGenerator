@@ -27,55 +27,62 @@ public class DataSourceGeneratorConfig {
         return multiple;
     }
 
-    public void setMultiple(Boolean multiple) {
+    public DataSourceGeneratorConfig setMultiple(Boolean multiple) {
         this.multiple = multiple;
+        return this;
     }
 
     public Boolean getCacheEnabled() {
         return cacheEnabled;
     }
 
-    public void setCacheEnabled(Boolean cacheEnabled) {
+    public DataSourceGeneratorConfig setCacheEnabled(Boolean cacheEnabled) {
         this.cacheEnabled = cacheEnabled;
+        return this;
     }
 
     public String getSingleYmlFile() {
         return singleYmlFile;
     }
 
-    public void setSingleYmlFile(String singleYmlFile) {
+    public DataSourceGeneratorConfig setSingleYmlFile(String singleYmlFile) {
         this.singleYmlFile = singleYmlFile;
+        return this;
     }
 
     public String getMultipleYmlFile() {
         return multipleYmlFile;
     }
 
-    public void setMultipleYmlFile(String multipleYmlFile) {
+    public DataSourceGeneratorConfig setMultipleYmlFile(String multipleYmlFile) {
         this.multipleYmlFile = multipleYmlFile;
+        return this;
     }
 
     public String getTemplateDatasource() {
         return templateDatasource;
     }
 
-    public void setTemplateDatasource(String templateDatasource) {
+    public DataSourceGeneratorConfig setTemplateDatasource(String templateDatasource) {
         this.templateDatasource = templateDatasource;
+        return this;
     }
 
     public Boolean getFileOverride() {
         return fileOverride;
     }
 
-    public void setFileOverride(Boolean fileOverride) {
+    public DataSourceGeneratorConfig setFileOverride(Boolean fileOverride) {
         this.fileOverride = fileOverride;
+        return this;
     }
 
     public String getFileSeparator() {
         return fileSeparator;
     }
 
-    public void setFileSeparator(String fileSeparator) {
+    public DataSourceGeneratorConfig setFileSeparator(String fileSeparator) {
         this.fileSeparator = fileSeparator;
+        return this;
     }
 }

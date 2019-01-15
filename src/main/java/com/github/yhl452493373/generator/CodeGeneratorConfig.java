@@ -4,18 +4,22 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Mybatis Plus代码生成器的配置封装.
  * 此封装仅针对mysql数据源.其他数据源请根据情况修改链接地址拼接方式或手动拼接
  * 这里配置是否启用二级缓存 enableCache 和是否启用 redis 作为二级缓存 enableRedis
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 public class CodeGeneratorConfig {
     //数据源配置
     private String host = "localhost";
     private String port = "3306";
     private String database;
+    //时区设置,mysql6以上使用
+    private String serverTimezone;
     //如果不是mysql，需要根据实际修改拼接字符串
     private String dataSourceUrl;
     //如果不是mysql，需要根据实际修改驱动
@@ -122,26 +126,61 @@ public class CodeGeneratorConfig {
     public CodeGeneratorConfig() {
     }
 
-    public CodeGeneratorConfig(String database, String[] tableInclude, String packageParent) {
-        this.database = database;
-        this.tableInclude = tableInclude;
-        this.packageParent = packageParent;
+    public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword) {
+        this(host, port, database, dataSourceUsername, dataSourcePassword, null, null, new String[]{});
+    }
+
+    public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword, String serverTimezone) {
+        this(host, port, database, dataSourceUsername, dataSourcePassword, serverTimezone, null, new String[]{});
+    }
+
+    public CodeGeneratorConfig(String database, String packageParent, String... tableInclude) {
+        this(null, null, database, null, packageParent, tableInclude);
+    }
+
+    public CodeGeneratorConfig(String host, String port, String database, String packageParent, String... tableInclude) {
+        this(host, port, database, null, packageParent, tableInclude);
+    }
+
+    public CodeGeneratorConfig(String host, String port, String database, String serverTimezone, String packageParent, String... tableInclude) {
+        this(host, port, database, null, null, serverTimezone, packageParent, tableInclude);
+    }
+
+    public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword, String serverTimezone, String packageParent, String... tableInclude) {
+        if (StringUtils.isNotEmpty(host))
+            this.host = host;
+        if (StringUtils.isNotEmpty(port))
+            this.port = port;
+        if (StringUtils.isNotEmpty(database))
+            this.database = database;
+        if (StringUtils.isNotEmpty(dataSourceUsername))
+            this.dataSourceUsername = dataSourceUsername;
+        if (StringUtils.isNotEmpty(dataSourcePassword))
+            this.dataSourcePassword = dataSourcePassword;
+        if (StringUtils.isNotEmpty(serverTimezone))
+            this.serverTimezone = serverTimezone;
+        if (StringUtils.isNotEmpty(packageParent))
+            this.packageParent = packageParent;
+        if (tableInclude != null && tableInclude.length > 0)
+            this.tableInclude = tableInclude;
     }
 
     public String getHost() {
         return host;
     }
 
-    public void setHost(String host) {
+    public CodeGeneratorConfig setHost(String host) {
         this.host = host;
+        return this;
     }
 
     public String getPort() {
         return port;
     }
 
-    public void setPort(String port) {
+    public CodeGeneratorConfig setPort(String port) {
         this.port = port;
+        return this;
     }
 
     public String getDatabase() {
@@ -150,49 +189,70 @@ public class CodeGeneratorConfig {
         return database;
     }
 
-    public void setDatabase(String database) {
+    public CodeGeneratorConfig setDatabase(String database) {
         this.database = database;
+        return this;
+    }
+
+    public String getServerTimezone() {
+        return serverTimezone;
+    }
+
+    public CodeGeneratorConfig setServerTimezone(String serverTimezone) {
+        this.serverTimezone = serverTimezone;
+        return this;
     }
 
     public String getDataSourceUrl() {
         if (StringUtils.isEmpty(this.dataSourceUrl))
             this.dataSourceUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useUnicode=true&useSSL=false&characterEncoding=utf8";
+        if (!StringUtils.isEmpty(this.serverTimezone) && !this.dataSourceUrl.contains("serverTimezone=")) {
+            try {
+                this.dataSourceUrl += "serverTimezone=" + URLEncoder.encode(this.serverTimezone, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
         return dataSourceUrl;
     }
 
-    public void setDataSourceUrl(String dataSourceUrl) {
+    public CodeGeneratorConfig setDataSourceUrl(String dataSourceUrl) {
         this.dataSourceUrl = dataSourceUrl;
+        return this;
     }
 
     public String getDataSourceDriver() {
         return dataSourceDriver;
     }
 
-    public void setDataSourceDriver(String dataSourceDriver) {
+    public CodeGeneratorConfig setDataSourceDriver(String dataSourceDriver) {
         this.dataSourceDriver = dataSourceDriver;
+        return this;
     }
 
     public String getDataSourceUsername() {
         return dataSourceUsername;
     }
 
-    public void setDataSourceUsername(String dataSourceUsername) {
+    public CodeGeneratorConfig setDataSourceUsername(String dataSourceUsername) {
         this.dataSourceUsername = dataSourceUsername;
+        return this;
     }
 
     public String getDataSourcePassword() {
         return dataSourcePassword;
     }
 
-    public void setDataSourcePassword(String dataSourcePassword) {
+    public CodeGeneratorConfig setDataSourcePassword(String dataSourcePassword) {
         this.dataSourcePassword = dataSourcePassword;
+        return this;
     }
 
     public Boolean getEnableCache() {
         return enableCache;
     }
 
-    public void setEnableCache(Boolean enableCache) {
+    public CodeGeneratorConfig setEnableCache(Boolean enableCache) {
 //        if (enableCache)
 //            System.out.println("请添加mybatis的二级缓存依赖包,如果已经添加,请忽略:\n" +
 //                    "           <dependency>\n" +
@@ -201,13 +261,14 @@ public class CodeGeneratorConfig {
 //                    "               <version>1.1.0</version>\n" +
 //                    "           </dependency>");
         this.enableCache = enableCache;
+        return this;
     }
 
     public Boolean getEnableRedis() {
         return enableRedis;
     }
 
-    public void setEnableRedis(Boolean enableRedis) {
+    public CodeGeneratorConfig setEnableRedis(Boolean enableRedis) {
 //        if (enableRedis) {
 //            System.out.println("请添加springboot的redis依赖包,如果已经添加,请忽略:\n" +
 //                    "           <dependency>\n" +
@@ -223,38 +284,43 @@ public class CodeGeneratorConfig {
 //                    "           </dependency>");
 //        }
         this.enableRedis = enableRedis;
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public CodeGeneratorConfig setAuthor(String author) {
         this.author = author;
+        return this;
     }
 
     public Boolean getOpenGenerateDir() {
         return openGenerateDir;
     }
 
-    public void setOpenGenerateDir(Boolean openGenerateDir) {
+    public CodeGeneratorConfig setOpenGenerateDir(Boolean openGenerateDir) {
         this.openGenerateDir = openGenerateDir;
+        return this;
     }
 
     public Boolean getFileOverride() {
         return fileOverride;
     }
 
-    public void setFileOverride(Boolean fileOverride) {
+    public CodeGeneratorConfig setFileOverride(Boolean fileOverride) {
         this.fileOverride = fileOverride;
+        return this;
     }
 
     public String[] getTablePrefix() {
         return tablePrefix;
     }
 
-    public void setTablePrefix(String[] tablePrefix) {
+    public CodeGeneratorConfig setTablePrefix(String[] tablePrefix) {
         this.tablePrefix = tablePrefix;
+        return this;
     }
 
     public String[] getTableInclude() {
@@ -263,8 +329,9 @@ public class CodeGeneratorConfig {
         return tableInclude;
     }
 
-    public void setTableInclude(String[] tableInclude) {
+    public CodeGeneratorConfig setTableInclude(String[] tableInclude) {
         this.tableInclude = tableInclude;
+        return this;
     }
 
     public String[] getTableExclude() {
@@ -273,8 +340,9 @@ public class CodeGeneratorConfig {
         return tableExclude;
     }
 
-    public void setTableExclude(String[] tableExclude) {
+    public CodeGeneratorConfig setTableExclude(String[] tableExclude) {
         this.tableExclude = tableExclude;
+        return this;
     }
 
     public String getPackageParent() {
@@ -284,328 +352,369 @@ public class CodeGeneratorConfig {
         return packageParent;
     }
 
-    public void setPackageParent(String packageParent) {
+    public CodeGeneratorConfig setPackageParent(String packageParent) {
         this.packageParent = packageParent;
+        return this;
     }
 
     public String getPackageModule() {
         return packageModule;
     }
 
-    public void setPackageModule(String packageModule) {
+    public CodeGeneratorConfig setPackageModule(String packageModule) {
         this.packageModule = packageModule;
+        return this;
     }
 
     public String getPackageRedis() {
         return packageRedis;
     }
 
-    public void setPackageRedis(String packageRedis) {
+    public CodeGeneratorConfig setPackageRedis(String packageRedis) {
         this.packageRedis = packageRedis;
+        return this;
     }
 
     public String getPackageConfig() {
         return packageConfig;
     }
 
-    public void setPackageConfig(String packageConfig) {
+    public CodeGeneratorConfig setPackageConfig(String packageConfig) {
         this.packageConfig = packageConfig;
+        return this;
     }
 
     public String getPackageMapper() {
         return packageMapper;
     }
 
-    public void setPackageMapper(String packageMapper) {
+    public CodeGeneratorConfig setPackageMapper(String packageMapper) {
         this.packageMapper = packageMapper;
+        return this;
     }
 
     public String getPackageService() {
         return packageService;
     }
 
-    public void setPackageService(String packageService) {
+    public CodeGeneratorConfig setPackageService(String packageService) {
         this.packageService = packageService;
+        return this;
     }
 
     public String getPackageEntity() {
         return packageEntity;
     }
 
-    public void setPackageEntity(String packageEntity) {
+    public CodeGeneratorConfig setPackageEntity(String packageEntity) {
         this.packageEntity = packageEntity;
+        return this;
     }
 
     public String getPackageController() {
         return packageController;
     }
 
-    public void setPackageController(String packageController) {
+    public CodeGeneratorConfig setPackageController(String packageController) {
         this.packageController = packageController;
+        return this;
     }
 
     public Boolean getMapperInResource() {
         return mapperInResource;
     }
 
-    public void setMapperInResource(Boolean mapperInResource) {
+    public CodeGeneratorConfig setMapperInResource(Boolean mapperInResource) {
         this.mapperInResource = mapperInResource;
+        return this;
     }
 
     public String getMapperPackage() {
         return mapperPackage;
     }
 
-    public void setMapperPackage(String mapperPackage) {
+    public CodeGeneratorConfig setMapperPackage(String mapperPackage) {
         this.mapperPackage = mapperPackage;
+        return this;
     }
 
     public Boolean getMapperResultMap() {
         return mapperResultMap;
     }
 
-    public void setMapperResultMap(Boolean mapperResultMap) {
+    public CodeGeneratorConfig setMapperResultMap(Boolean mapperResultMap) {
         this.mapperResultMap = mapperResultMap;
+        return this;
     }
 
     public Boolean getMapperColumnList() {
         return mapperColumnList;
     }
 
-    public void setMapperColumnList(Boolean mapperColumnList) {
+    public CodeGeneratorConfig setMapperColumnList(Boolean mapperColumnList) {
         this.mapperColumnList = mapperColumnList;
+        return this;
     }
 
     public Boolean getLombokModel() {
         return lombokModel;
     }
 
-    public void setLombokModel(Boolean lombokModel) {
+    public CodeGeneratorConfig setLombokModel(Boolean lombokModel) {
         this.lombokModel = lombokModel;
+        return this;
     }
 
     public Boolean getRestControllerStyle() {
         return restControllerStyle;
     }
 
-    public void setRestControllerStyle(Boolean restControllerStyle) {
+    public CodeGeneratorConfig setRestControllerStyle(Boolean restControllerStyle) {
         this.restControllerStyle = restControllerStyle;
+        return this;
     }
 
     public String getUserTemplateType() {
         return userTemplateType;
     }
 
-    public void setUserTemplateType(String userTemplateType) {
+    public CodeGeneratorConfig setUserTemplateType(String userTemplateType) {
         this.userTemplateType = userTemplateType;
         this.userTemplateType = "ftl";
+        return this;
     }
 
     public String getUserTemplateDir() {
         return userTemplateDir;
     }
 
-    public void setUserTemplateDir(String userTemplateDir) {
+    public CodeGeneratorConfig setUserTemplateDir(String userTemplateDir) {
         this.userTemplateDir = userTemplateDir;
+        return this;
     }
 
     public String getUserTemplateController() {
         return userTemplateController;
     }
 
-    public void setUserTemplateController(String userTemplateController) {
+    public CodeGeneratorConfig setUserTemplateController(String userTemplateController) {
         this.userTemplateController = userTemplateController;
+        return this;
     }
 
     public String getUserTemplateMapperXml() {
         return userTemplateMapperXml;
     }
 
-    public void setUserTemplateMapperXml(String userTemplateMapperXml) {
+    public CodeGeneratorConfig setUserTemplateMapperXml(String userTemplateMapperXml) {
         this.userTemplateMapperXml = userTemplateMapperXml;
+        return this;
     }
 
     public String getUserTemplateMapperJava() {
         return userTemplateMapperJava;
     }
 
-    public void setUserTemplateMapperJava(String userTemplateMapperJava) {
+    public CodeGeneratorConfig setUserTemplateMapperJava(String userTemplateMapperJava) {
         this.userTemplateMapperJava = userTemplateMapperJava;
+        return this;
     }
 
     public String getUserTemplateRedisCache() {
         return userTemplateRedisCache;
     }
 
-    public void setUserTemplateRedisCache(String userTemplateRedisCache) {
+    public CodeGeneratorConfig setUserTemplateRedisCache(String userTemplateRedisCache) {
         this.userTemplateRedisCache = userTemplateRedisCache;
+        return this;
     }
 
     public String getUserTemplateRedisConfiguration() {
         return userTemplateRedisConfiguration;
     }
 
-    public void setUserTemplateRedisConfiguration(String userTemplateRedisConfiguration) {
+    public CodeGeneratorConfig setUserTemplateRedisConfiguration(String userTemplateRedisConfiguration) {
         this.userTemplateRedisConfiguration = userTemplateRedisConfiguration;
+        return this;
     }
 
     public String getUserTemplateRedisConfig() {
         return userTemplateRedisConfig;
     }
 
-    public void setUserTemplateRedisConfig(String userTemplateRedisConfig) {
+    public CodeGeneratorConfig setUserTemplateRedisConfig(String userTemplateRedisConfig) {
         this.userTemplateRedisConfig = userTemplateRedisConfig;
+        return this;
     }
 
     public String getUserTemplateRedisProperties() {
         return userTemplateRedisProperties;
     }
 
-    public void setUserTemplateRedisProperties(String userTemplateRedisProperties) {
+    public CodeGeneratorConfig setUserTemplateRedisProperties(String userTemplateRedisProperties) {
         this.userTemplateRedisProperties = userTemplateRedisProperties;
+        return this;
     }
 
     public String getUserTemplateRedisLettuceProperties() {
         return userTemplateRedisLettuceProperties;
     }
 
-    public void setUserTemplateRedisLettuceProperties(String userTemplateRedisLettuceProperties) {
+    public CodeGeneratorConfig setUserTemplateRedisLettuceProperties(String userTemplateRedisLettuceProperties) {
         this.userTemplateRedisLettuceProperties = userTemplateRedisLettuceProperties;
+        return this;
     }
 
     public String getUserTemplateRedisLettucePoolProperties() {
         return userTemplateRedisLettucePoolProperties;
     }
 
-    public void setUserTemplateRedisLettucePoolProperties(String userTemplateRedisLettucePoolProperties) {
+    public CodeGeneratorConfig setUserTemplateRedisLettucePoolProperties(String userTemplateRedisLettucePoolProperties) {
         this.userTemplateRedisLettucePoolProperties = userTemplateRedisLettucePoolProperties;
+        return this;
     }
 
     public String getFileSeparator() {
         return fileSeparator;
     }
 
-    public void setFileSeparator(String fileSeparator) {
+    public CodeGeneratorConfig setFileSeparator(String fileSeparator) {
         this.fileSeparator = fileSeparator;
+        return this;
     }
 
     public String getPackageShiro() {
         return packageShiro;
     }
 
-    public void setPackageShiro(String packageShiro) {
+    public CodeGeneratorConfig setPackageShiro(String packageShiro) {
         this.packageShiro = packageShiro;
+        return this;
     }
 
     public String getUserTemplateRedisShiroCache() {
         return userTemplateRedisShiroCache;
     }
 
-    public void setUserTemplateRedisShiroCache(String userTemplateRedisShiroCache) {
+    public CodeGeneratorConfig setUserTemplateRedisShiroCache(String userTemplateRedisShiroCache) {
         this.userTemplateRedisShiroCache = userTemplateRedisShiroCache;
+        return this;
     }
 
     public String getUserTemplateRedisShiroCacheManager() {
         return userTemplateRedisShiroCacheManager;
     }
 
-    public void setUserTemplateRedisShiroCacheManager(String userTemplateRedisShiroCacheManager) {
+    public CodeGeneratorConfig setUserTemplateRedisShiroCacheManager(String userTemplateRedisShiroCacheManager) {
         this.userTemplateRedisShiroCacheManager = userTemplateRedisShiroCacheManager;
+        return this;
     }
 
     public String getUserTemplateRedisShiroConfiguration() {
         return userTemplateRedisShiroConfiguration;
     }
 
-    public void setUserTemplateRedisShiroConfiguration(String userTemplateRedisShiroConfiguration) {
+    public CodeGeneratorConfig setUserTemplateRedisShiroConfiguration(String userTemplateRedisShiroConfiguration) {
         this.userTemplateRedisShiroConfiguration = userTemplateRedisShiroConfiguration;
+        return this;
     }
 
     public String getUserTemplateRedisShiroSessionDAO() {
         return userTemplateRedisShiroSessionDAO;
     }
 
-    public void setUserTemplateRedisShiroSessionDAO(String userTemplateRedisShiroSessionDAO) {
+    public CodeGeneratorConfig setUserTemplateRedisShiroSessionDAO(String userTemplateRedisShiroSessionDAO) {
         this.userTemplateRedisShiroSessionDAO = userTemplateRedisShiroSessionDAO;
+        return this;
     }
 
     public String getPackageShiroRedis() {
         return packageShiroRedis;
     }
 
-    public void setPackageShiroRedis(String packageShiroRedis) {
+    public CodeGeneratorConfig setPackageShiroRedis(String packageShiroRedis) {
         this.packageShiroRedis = packageShiroRedis;
+        return this;
     }
 
     public String getUserTemplateShiroConfig() {
         return userTemplateShiroConfig;
     }
 
-    public void setUserTemplateShiroConfig(String userTemplateShiroConfig) {
+    public CodeGeneratorConfig setUserTemplateShiroConfig(String userTemplateShiroConfig) {
         this.userTemplateShiroConfig = userTemplateShiroConfig;
+        return this;
     }
 
     public String getUserTemplateShiroRealm() {
         return userTemplateShiroRealm;
     }
 
-    public void setUserTemplateShiroRealm(String userTemplateShiroRealm) {
+    public CodeGeneratorConfig setUserTemplateShiroRealm(String userTemplateShiroRealm) {
         this.userTemplateShiroRealm = userTemplateShiroRealm;
+        return this;
     }
 
     public String getUserTemplateServiceConfig() {
         return userTemplateServiceConfig;
     }
 
-    public void setUserTemplateServiceConfig(String userTemplateServiceConfig) {
+    public CodeGeneratorConfig setUserTemplateServiceConfig(String userTemplateServiceConfig) {
         this.userTemplateServiceConfig = userTemplateServiceConfig;
+        return this;
     }
 
     public String[] getSuperEntityColumns() {
         return superEntityColumns;
     }
 
-    public void setSuperEntityColumns(String... superEntityColumns) {
+    public CodeGeneratorConfig setSuperEntityColumns(String... superEntityColumns) {
         this.superEntityColumns = superEntityColumns;
+        return this;
     }
 
     public String getSuperEntityClass() {
         return superEntityClass;
     }
 
-    public void setSuperEntityClass(String superEntityClass) {
+    public CodeGeneratorConfig setSuperEntityClass(String superEntityClass) {
         this.superEntityClass = superEntityClass;
+        return this;
     }
 
     public String getSuperControllerClass() {
         return superControllerClass;
     }
 
-    public void setSuperControllerClass(String superControllerClass) {
+    public CodeGeneratorConfig setSuperControllerClass(String superControllerClass) {
         this.superControllerClass = superControllerClass;
+        return this;
     }
 
     public String getSuperMapperClass() {
         return superMapperClass;
     }
 
-    public void setSuperMapperClass(String superMapperClass) {
+    public CodeGeneratorConfig setSuperMapperClass(String superMapperClass) {
         this.superMapperClass = superMapperClass;
+        return this;
     }
 
     public String getSuperServiceClass() {
         return superServiceClass;
     }
 
-    public void setSuperServiceClass(String superServiceClass) {
+    public CodeGeneratorConfig setSuperServiceClass(String superServiceClass) {
         this.superServiceClass = superServiceClass;
+        return this;
     }
 
     public String getSuperServiceImplClass() {
         return superServiceImplClass;
     }
 
-    public void setSuperServiceImplClass(String superServiceImplClass) {
+    public CodeGeneratorConfig setSuperServiceImplClass(String superServiceImplClass) {
         this.superServiceImplClass = superServiceImplClass;
+        return this;
     }
 }

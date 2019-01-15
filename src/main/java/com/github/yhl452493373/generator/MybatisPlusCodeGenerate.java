@@ -23,7 +23,7 @@ public class MybatisPlusCodeGenerate {
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                "psm", new String[]{"employee"}, "com.github.yhl452493373.demo"
+                "psm", "com.github.yhl452493373.demo", new String[]{"employee"}
         );
         cgc.setFileOverride(false);
         cgc.setEnableCache(true);
@@ -50,7 +50,7 @@ public class MybatisPlusCodeGenerate {
 
         dataSourceMap.keySet().forEach(key -> {
             CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                    key, dataSourceMap.get(key), "com.github.yhl452493373.demo"
+                    key, "com.github.yhl452493373.demo", dataSourceMap.get(key)
             );
             cgc.setFileOverride(true);
             cgc.setEnableCache(true);

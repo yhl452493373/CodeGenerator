@@ -208,7 +208,7 @@ public abstract class AbstractTemplateEngine {
      * </p>
      *
      * @param tableInfo 表信息对象
-     * @return
+     * @return 对象信息
      */
     public Map<String, Object> getObjectMap(TableInfo tableInfo) {
         Map<String, Object> objectMap = new HashMap<>(30);
