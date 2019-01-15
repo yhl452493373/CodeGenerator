@@ -8,7 +8,7 @@ maven引用
     </dependency>
 ```
 使用代码:
-## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.tableInclude采用可变参数的形式,不需要通过new String\[\]{}的形式,直接字符串方式写即可.具体增加的构造方法,请参考[CodeGeneratorConfig源码](com/github/yhl452493373/generator/CodeGeneratorConfig.java)
+## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.tableInclude采用可变参数的形式,不需要通过new String\[\]{}的形式,直接字符串方式写即可.具体增加的构造方法,请参考[CodeGeneratorConfig源码](/com/github/yhl452493373/generator/CodeGeneratorConfig.java)
 ```java
     //单数据源
     private static void singleDataSource() {
