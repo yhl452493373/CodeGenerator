@@ -6,7 +6,7 @@
 
     <groupId>com.github.yhl452493373</groupId>
     <artifactId>code-generator</artifactId>
-    <version>1.1.11</version>
+    <version>1.2.0</version>
 
     <name>code-generator</name>
     <url>https://github.com/yhl452493373/CodeGenerator</url>
@@ -72,6 +72,12 @@
             <version>${mimepull.version}</version>
         </dependency>
         <!--以上为springboot必须-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!--以上为springboot开启aop必须-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

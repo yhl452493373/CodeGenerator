@@ -1,14 +1,16 @@
 # code-generator
-maven引用
+maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待同步后在使用.在此之前可先使用1.1.11
 ```xml
     <dependency>
         <groupId>com.github.yhl452493373</groupId>
         <artifactId>code-generator</artifactId>
-        <version>1.1.11</version>
+        <version>1.2.0</version>
     </dependency>
 ```
 使用代码:
 ## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.具体增加的构造方法,请参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java)
+## 注意:从1.2.0开始,redis更改redis缓存为Mybatis Plus官方推荐方式:@Cacheable,@CacheEvict等自行管理.具体用法参考:[https://blog.csdn.net/dreamhai/article/details/80642010](https://blog.csdn.net/dreamhai/article/details/80642010)
+# 从1.1.11升级到1.2.0,如果采用了redis,则需要删除RedisConfiguration.java, RedisCache.java. RedisConfig.java中,删除RedisCache.setRedisTemplate(redisTemplate)和RedisCache.setRedisConfiguration(new RedisConfiguration()),同时删除以前生成的Mapper.xml中<cache-ref namespace="xxxxMapper" />,删除Mapper.java中的@CacheNamespace(implementation= RedisCache.class,eviction= RedisCache.class),同时在ServiceImpl中增加@CacheConfig(cacheNames = "缓存命名空间(只能为英文)"),之后,在需要缓存的方法上添加 @Cacheable(key = "'id_'+#id")来缓存数据, @CacheEvict(condition = "#id!=null", allEntries = true)来清除缓存.这些标签请参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java). 同时,如果页面上有展示日期的,如果没用 timeObject?string("日期格式") 来格式化日期,则需要写成 timeObject?date 或 timeObject? time 或 timeObject? datetime
 ```java
     //单数据源
     private static void singleDataSource() {
@@ -18,7 +20,7 @@ maven引用
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                "psm", "com.yang.demo", "employee"
+                "psm", "com.yang.demo", new String[]{"employee"}
         ).setFileOverride(true).setEnableCache(true).setEnableRedis(true);
         CodeGenerator.baseCodeGenerate(cgc);
     }
@@ -129,118 +131,108 @@ maven引用
 ### CodeGeneratorConfig有以下一些属性,均通过set设置,其他属性不建议修改 ###
 ```java
     //数据源配置
-    //生成实体的数据库的链接地址,根据需要设置
-    private String host = "localhost";
-    //生成实体的数据库的端口,根据需要设置
-    private String port = "3306";
-    //生成实体的数据库的数据库名,根据需要设置
-    private String database;
-    //时区,mysql 6.0以上时需要设置.中国地区直接设置为GMT+8即可,其他地区根据实际设置
-    private String serverTimezone;
-    //如果不是mysql，需要根据实际修改拼接字符串.如果是则大部分情况不用管它,除非要重新增加其他链接参数,可以通过此属性自行拼接
-    private String dataSourceUrl;
-    //如果不是mysql，需要根据实际修改驱动.
-    private String dataSourceDriver = "com.mysql.jdbc.Driver";
-    //生成实体的数据库的用户名
-    private String dataSourceUsername = "root";
-    //生成实体的使句酷的密码
-    private String dataSourcePassword = "root";
-    //以上属性参考http://mp.baomidou.com/guide/generator.html#%E6%95%B0%E6%8D%AE%E6%BA%90-datasourceconfig-%E9%85%8D%E7%BD%AE
-    //是否使用mybatis二级缓存,如果要使用redis,这个必须为true
-    private Boolean enableCache = false;
-    //是否使用redis作为二级缓存
-    private Boolean enableRedis = false;
-    //代码中的author注释
-    private String author = "User";
-    //代码生成后是否打开输出文件夹
-    private Boolean openGenerateDir = false;
-    //文件存在时是否覆盖,参考DataSourceGeneratorConfig同名属性
-    private Boolean fileOverride = false;
-    //数据库中表的前缀，如果设置了,则会将生成的实体名字中以此开头的去掉,在实体中增加@TableName("表名")
-    //例如我设置了要生成的表为sys_user,如果设置了前缀为sys_,则生成entity,service,mapper等都为User或U色开头,实体中有@TableName("sys_user")的注解
-    //否则都是SysUser或SysUser开头,不会有@TableName("sys_user")的注解
-    private String[] tablePrefix = null;
-    //要生成代码的表名,指定哪些表会被生成代码
-    private String[] tableInclude = {};
-    //不生成代码的表名,指定哪些表不会生成代码
-    private String[] tableExclude = {};
-    //代码包名.如项目包为com.yang.demo则填写com.yang.demo;也可以填写com.yang,然后在packageModule中填写demo.建议此处填写全包名,如com.yang.demo
-    private String packageParent = null;
-    //模块名，如项目包为com.yang.demo则填写null;也可以填写demo.会在其下生成controller，mapper，service，entity等包.如果packageParent是全包名,此处留空
-    //注意:此包名如果填写,自动生成的controller中会增加包名路径.比如填写了demo,则为@RequestMapping("/demo/data/实体"),不填写则为@RequestMapping("/data/实体")
-    private String packageModule = null;
-    //redis相关文件所在包名,包括数据源,Cache.java.无特别需求,建议不动
-    private String packageRedis = "redis";
-    //shiro相关文件所在包名.无特别需求,建议不动
-    private String packageShiro = "shiro";
-    //shiro的Redis配置文件所在包名,默认在shiro.redis包下.无特别需求,建议不动
-    private String packageShiroRedis = packageShiro + StringPool.DOT + "redis";
-    //Config.java配置文件位置,启用redis时会把RedisConfig.java放到这里.无特别需求,建议不动
-    private String packageConfig = "config";
-    //Mapper.java位置,多数据源时建议写成 mapper.数据源名 避免同名表被覆盖
-    private String packageMapper = "mapper";
-    //Service.java位置,其实现方法在该包下的impl中,多数据源时建议写成 service.数据源名 避免同名表被覆盖
-    private String packageService = "service";
-    //实体Bean位置,多数据源时建议写成 entity.数据源名 避免同名表被覆盖
-    private String packageEntity = "entity";
-    //Controller.java位置,多数据源时酌情使用 controller.数据源名 避免同名表被覆盖
-    private String packageController = "controller";
-    //mapper.xml是否放到resources目录下，否则放到Mapper.java（Dao层）所在目录下
-    private Boolean mapperInResource = true;
-    //mapper.xml包名,可为null。默认为mapper.xml,即mapper包下的xml包。如果要放到resources目录下，建议给个包名，否则为mapper/xml
-    //多数据源时建议写成 mapper包.数据源名 避免同名表被覆盖
-    private String mapperPackage = "mapper";
-    //mapper.xml中生成基本的resultMap(通用查询映射结果)，包含所有属性
-    private Boolean mapperResultMap = false;
-    //mapper.xml中生成基本的sql(通用查询结果列)，包含所有属性
-    private Boolean mapperColumnList = false;
-    //是否利用lombok以达到不写getter和setter的目的
-    private Boolean lombokModel = false;
-    //是否生成为rest风格的Controller,否则生成普通Controller
-    private Boolean restControllerStyle = true;
-    //用户定义模板后缀，.ftl或者.vm  目前只支持freemarker的ftl模板,建议不动,除非你要用velocity模板引擎.需要自己再修改ftl为vm格式
-    private String userTemplateType = "ftl";
-    //用户定义模板在resources下的位置, 一般建议不动
-    private String userTemplateDir = "templates";
-    //用户定义的模板，ftl或者vm。在resources目录下, 一般建议不动
-    private String userTemplateController = "controller.java";
-    //用户定义的redisMapper.xml代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateMapperXml = "redisMapper.xml";
-    //用户定义的redisMapper.java代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateMapperJava = "redisMapper.java";
-    //用户定义的redisCache.java代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisCache = "redisCache.java";
-    //用户定义的redisConfiguration.java代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisConfiguration = "redisConfiguration.java";
-    //用户定义的redisConfig.java代码模板,,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisConfig = "redisConfig.java";
-    //用户定义的redisProperties.java(redis配置属性)代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisProperties = "redisProperties.java";
-    //用户定义的redisLettuceProperties.java(lettuce连接池属性)代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisLettuceProperties = "redisLettuceProperties.java";
-    //用户定义的redisLettucePoolProperties.java(lettuce连接池皮配置属性)代码模板,仅启用二级缓存和redis后有效, 一般建议不动
-    private String userTemplateRedisLettucePoolProperties = "redisLettucePoolProperties.java";
-    //用户定义的ShiroConfig.java相关代码模板, 一般建议不动
-    private String userTemplateShiroConfig = "shiroConfig.java";
-    //用户定义的ShiroRealm.java相关代码模板, 一般建议不动
-    private String userTemplateShiroRealm = "shiroRealm.java";
-    //用户定义的shiro使用redis缓存需要的相关代码模板, 一般建议不动
-    private String userTemplateRedisShiroCache = "redisShiroCache.java";
-    private String userTemplateRedisShiroCacheManager = "redisShiroCacheManager.java";
-    private String userTemplateRedisShiroConfiguration = "redisShiroConfiguration.java";
-    private String userTemplateRedisShiroSessionDAO = "redisShiroSessionDAO.java";
-    //自定义的service注入类模板, 一般建议不动
-    private String userTemplateServiceConfig = "serviceConfig.java";
-    //实体基类上的字段
-    private String[] superEntityColumns;
-    //实体基类
-    private String superEntityClass;
-    //controller基类
-    private String superControllerClass;
-    //mapper基类,会覆盖自动生成的mapper上的BaseMapper
-    private String superMapperClass = "com.baomidou.mybatisplus.core.mapper.BaseMapper";
-    //service基类,会覆盖自动生成的service上的IService
-    private String superServiceClass = "com.baomidou.mybatisplus.extension.service.IService";
-    //serviceImpl基类,会覆盖自动生成的SeriviceImpl上的ServiceImpl
-    private String superServiceImplClass = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl";
+        private String host = "localhost";
+        private String port = "3306";
+        private String database;
+        //时区设置,mysql6以上使用
+        private String serverTimezone;
+        //如果不是mysql，需要根据实际修改拼接字符串
+        private String dataSourceUrl;
+        //如果不是mysql，需要根据实际修改驱动
+        private String dataSourceDriver = "com.mysql.jdbc.Driver";
+        private String dataSourceUsername = "root";
+        private String dataSourcePassword = "root";
+        //是否使用mybatis二级缓存,如果要使用redis,这个必须为true
+        private Boolean enableCache = false;
+        //是否使用redis作为二级缓存
+        private Boolean enableRedis = false;
+        //代码中的author注释
+        private String author = "User";
+        //代码生成后是否打开输出文件夹
+        private Boolean openGenerateDir = false;
+        //文件存在时是否覆盖
+        private Boolean fileOverride = false;
+        //数据库中表的前缀，可以为null
+        private String[] tablePrefix = null;
+        //要生成代码的表名
+        private String[] tableInclude = {};
+        //不生成代码的表名
+        private String[] tableExclude = {};
+        //代码包名，模块的上一级
+        private String packageParent = null;
+        //模块名，会在其下生成到controller，mapper，service，entity等包
+        private String packageModule = null;
+        //redis相关文件所在包名,包括数据源,Cache.java
+        private String packageRedis = "redis";
+        //shiro相关文件所在包名.
+        private String packageShiro = "shiro";
+        //shiro的Redis配置文件所在包名
+        private String packageShiroRedis = packageShiro + StringPool.DOT + "redis";
+        //Config.java配置文件位置,启用redis时会把RedisConfig.java放到这里
+        private String packageConfig = "config";
+        //Mapper.java位置,多数据源时建议写成 mapper.数据源名
+        private String packageMapper = "mapper";
+        //Service.java位置,其实现方法在该包下的impl中,多数据源时建议写成 service.数据源名
+        private String packageService = "service";
+        //实体Bean位置,多数据源时建议写成 entity.数据源名
+        private String packageEntity = "entity";
+        //Controller.java位置,多数据源时酌情使用 controller.数据源名
+        private String packageController = "controller";
+        //mapper.xml是否放到resources目录下，否则放到Mapper.java（Dao层）所在目录下
+        private Boolean mapperInResource = true;
+        //mapper.xml包名,可为null。默认为mapper.xml,即mapper包下的xml包。如果要放到resources目录下，建议给个包名，否则为mapper/xml
+        //多数据源时建议写成 mapper包.数据源名
+        private String mapperPackage = "mapper";
+        //mapper.xml中生成基本的resultMap(通用查询映射结果)，包含所有属性
+        private Boolean mapperResultMap = false;
+        //mapper.xml中生成基本的sql(通用查询结果列)，包含所有属性
+        private Boolean mapperColumnList = false;
+        //是否利用lombok以达到不写getter和setter的目的
+        private Boolean lombokModel = false;
+        //是否生成为rest风格的Controller,否则生成普通Controller
+        private Boolean restControllerStyle = true;
+        //用户定义模板后缀，.ftl或者.vm  目前只支持freemarker的ftl模板
+        private String userTemplateType = "ftl";
+        //用户定义模板在resources下的位置, 这些模板用于生成代码,发布后可删除这个目录下的所有文件
+        private String userTemplateDir = "templates";
+        //以下属性,如无特殊需求,不建议修改
+        //用户定义的模板，ftl或者vm。在resources目录下下
+        private String userTemplateController = "controller.java";
+        //用户定义的redisMapper.xml代码模板,仅启用二级缓存和redis后有效
+        private String userTemplateMapperXml = "redisMapper.xml";
+        //用户定义的redisServiceImpl.java代码模板,仅启用二级缓存和redis后有效
+        private String userTemplateServiceImplJava = "redisServiceImpl.java";
+        //用户定义的redisConfig.java代码模板,,仅启用二级缓存和redis后有效
+        private String userTemplateRedisConfig = "redisConfig.java";
+        //用户定义的redisProperties.java(redis配置属性)代码模板,仅启用二级缓存和redis后有效
+        private String userTemplateRedisProperties = "redisProperties.java";
+        //用户定义的redisLettuceProperties.java(lettuce连接池属性)代码模板,仅启用二级缓存和redis后有效
+        private String userTemplateRedisLettuceProperties = "redisLettuceProperties.java";
+        //用户定义的redisLettucePoolProperties.java(lettuce连接池皮配置属性)代码模板,仅启用二级缓存和redis后有效
+        private String userTemplateRedisLettucePoolProperties = "redisLettucePoolProperties.java";
+        //用户定义的ShiroConfig.java相关代码模板
+        private String userTemplateShiroConfig = "shiroConfig.java";
+        //用户定义的ShiroRealm.java相关代码模板
+        private String userTemplateShiroRealm = "shiroRealm.java";
+        //用户定义的shiro使用redis缓存需要的相关代码模板
+        private String userTemplateRedisShiroCache = "redisShiroCache.java";
+        private String userTemplateRedisShiroCacheManager = "redisShiroCacheManager.java";
+        private String userTemplateRedisShiroConfiguration = "redisShiroConfiguration.java";
+        private String userTemplateRedisShiroSessionDAO = "redisShiroSessionDAO.java";
+        //自定义的service注入类
+        private String userTemplateServiceConfig = "serviceConfig.java";
+        //目录分隔符，不需要修改
+        private String fileSeparator = File.separator;
+        //实体基类上的字段
+        private String[] superEntityColumns;
+        //实体基类
+        private String superEntityClass;
+        //controller基类
+        private String superControllerClass;
+        //mapper基类,会覆盖自动生成的mapper上的BaseMapper
+        private String superMapperClass = "com.baomidou.mybatisplus.core.mapper.BaseMapper";
+        //service基类,会覆盖自动生成的service上的IService
+        private String superServiceClass = "com.baomidou.mybatisplus.extension.service.IService";
+        //serviceImpl基类,会覆盖自动生成的SeriviceImpl上的ServiceImpl
+        private String superServiceImplClass = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl";
 ```

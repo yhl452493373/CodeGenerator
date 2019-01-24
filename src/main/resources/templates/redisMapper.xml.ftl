@@ -4,7 +4,8 @@
 <#if enableCache>
     <#if cfg.enableRedis>
     <!-- 开启redis二级缓存 -->
-    <cache-ref namespace="${package.Mapper}.${table.mapperName}" />
+    <!-- 采用注解来手动管理redis缓存.这些注解需要写在ServiceImpl中. 请写在${package.ServiceImpl}.${table.serviceImplName}中 -->
+    <!-- 如不清楚使用方式,参考:https://blog.csdn.net/dreamhai/article/details/80642010 -->
     <#else>
     <!-- 开启二级缓存 -->
     <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>

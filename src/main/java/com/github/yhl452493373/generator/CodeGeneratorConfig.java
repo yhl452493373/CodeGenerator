@@ -83,12 +83,8 @@ public class CodeGeneratorConfig {
     private String userTemplateController = "controller.java";
     //用户定义的redisMapper.xml代码模板,仅启用二级缓存和redis后有效
     private String userTemplateMapperXml = "redisMapper.xml";
-    //用户定义的redisMapper.java代码模板,仅启用二级缓存和redis后有效
-    private String userTemplateMapperJava = "redisMapper.java";
-    //用户定义的redisCache.java代码模板,仅启用二级缓存和redis后有效
-    private String userTemplateRedisCache = "redisCache.java";
-    //用户定义的redisConfiguration.java代码模板,仅启用二级缓存和redis后有效
-    private String userTemplateRedisConfiguration = "redisConfiguration.java";
+    //用户定义的redisServiceImpl.java代码模板,仅启用二级缓存和redis后有效
+    private String userTemplateServiceImplJava = "redisServiceImpl.java";
     //用户定义的redisConfig.java代码模板,,仅启用二级缓存和redis后有效
     private String userTemplateRedisConfig = "redisConfig.java";
     //用户定义的redisProperties.java(redis配置属性)代码模板,仅启用二级缓存和redis后有效
@@ -127,26 +123,26 @@ public class CodeGeneratorConfig {
     }
 
     public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword) {
-        this(host, port, database, dataSourceUsername, dataSourcePassword, null, null, new String[]{});
+        this(host, port, database, dataSourceUsername, dataSourcePassword, null, null, null);
     }
 
     public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword, String serverTimezone) {
-        this(host, port, database, dataSourceUsername, dataSourcePassword, serverTimezone, null, new String[]{});
+        this(host, port, database, dataSourceUsername, dataSourcePassword, serverTimezone, null, null);
     }
 
-    public CodeGeneratorConfig(String database, String packageParent, String... tableInclude) {
+    public CodeGeneratorConfig(String database, String packageParent, String[] tableInclude) {
         this(null, null, database, null, packageParent, tableInclude);
     }
 
-    public CodeGeneratorConfig(String host, String port, String database, String packageParent, String... tableInclude) {
+    public CodeGeneratorConfig(String host, String port, String database, String packageParent, String[] tableInclude) {
         this(host, port, database, null, packageParent, tableInclude);
     }
 
-    public CodeGeneratorConfig(String host, String port, String database, String serverTimezone, String packageParent, String... tableInclude) {
+    public CodeGeneratorConfig(String host, String port, String database, String serverTimezone, String packageParent, String[] tableInclude) {
         this(host, port, database, null, null, serverTimezone, packageParent, tableInclude);
     }
 
-    public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword, String serverTimezone, String packageParent, String... tableInclude) {
+    public CodeGeneratorConfig(String host, String port, String database, String dataSourceUsername, String dataSourcePassword, String serverTimezone, String packageParent, String[] tableInclude) {
         if (StringUtils.isNotEmpty(host))
             this.host = host;
         if (StringUtils.isNotEmpty(port))
@@ -511,30 +507,12 @@ public class CodeGeneratorConfig {
         return this;
     }
 
-    public String getUserTemplateMapperJava() {
-        return userTemplateMapperJava;
+    public String getUserTemplateServiceImplJava() {
+        return userTemplateServiceImplJava;
     }
 
-    public CodeGeneratorConfig setUserTemplateMapperJava(String userTemplateMapperJava) {
-        this.userTemplateMapperJava = userTemplateMapperJava;
-        return this;
-    }
-
-    public String getUserTemplateRedisCache() {
-        return userTemplateRedisCache;
-    }
-
-    public CodeGeneratorConfig setUserTemplateRedisCache(String userTemplateRedisCache) {
-        this.userTemplateRedisCache = userTemplateRedisCache;
-        return this;
-    }
-
-    public String getUserTemplateRedisConfiguration() {
-        return userTemplateRedisConfiguration;
-    }
-
-    public CodeGeneratorConfig setUserTemplateRedisConfiguration(String userTemplateRedisConfiguration) {
-        this.userTemplateRedisConfiguration = userTemplateRedisConfiguration;
+    public CodeGeneratorConfig setUserTemplateServiceImplJava(String userTemplateServiceImplJava) {
+        this.userTemplateServiceImplJava = userTemplateServiceImplJava;
         return this;
     }
 

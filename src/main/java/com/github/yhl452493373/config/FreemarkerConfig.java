@@ -28,6 +28,10 @@ public class FreemarkerConfig {
         configuration.setDefaultEncoding("UTF-8");
         configuration.setSharedVariable("shiro", new ShiroTags());
         configuration.setObjectWrapper(new CustomObjectWrapper());
+        configuration.setNumberFormat("#");
+        configuration.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");
+        configuration.setDateFormat("yyyy-MM-dd");
+        configuration.setTimeFormat("HH:mm:ss");
         freeMarkerConfigurer.setConfiguration(configuration);
         return freeMarkerConfigurer;
     }

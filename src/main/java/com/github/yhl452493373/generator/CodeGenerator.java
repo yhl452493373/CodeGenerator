@@ -134,8 +134,8 @@ public class CodeGenerator {
             });
             tc.setXml(null);
 
-            //Mapper.java模板和输出配置
-            focList.add(new FileOutConfig(cgc.getUserTemplateDir() + "/" + cgc.getUserTemplateMapperJava() + "." + cgc.getUserTemplateType()) {
+            //ServiceImpl.java模板和输出配置
+            focList.add(new FileOutConfig(cgc.getUserTemplateDir() + "/" + cgc.getUserTemplateServiceImplJava() + "." + cgc.getUserTemplateType()) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     // 自定义输出文件名称
@@ -143,39 +143,11 @@ public class CodeGenerator {
                             (StringUtils.isEmpty(pc.getParent()) ?
                                     "" : cgc.getFileSeparator() + pc.getParent().replace(".", cgc.getFileSeparator())
                             ) +
-                            cgc.getFileSeparator() + pc.getMapper().replace(".", cgc.getFileSeparator()) +
-                            cgc.getFileSeparator() + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_JAVA;
+                            cgc.getFileSeparator() + pc.getServiceImpl().replace(".", cgc.getFileSeparator()) +
+                            cgc.getFileSeparator() + tableInfo.getServiceImplName()+ StringPool.DOT_JAVA;
                 }
             });
-            tc.setMapper(null);
-
-            //RedisConfiguration.java模板和输出配置
-            focList.add(new FileOutConfig(cgc.getUserTemplateDir() + "/" + cgc.getUserTemplateRedisConfiguration() + "." + cgc.getUserTemplateType()) {
-                @Override
-                public String outputFile(TableInfo tableInfo) {
-                    // 自定义输出文件名称
-                    return projectPath + "/src/main/java".replace("/", cgc.getFileSeparator()) +
-                            (StringUtils.isEmpty(pc.getParent()) ?
-                                    "" : cgc.getFileSeparator() + pc.getParent().replace(".", cgc.getFileSeparator())
-                            ) +
-                            cgc.getFileSeparator() + cgc.getPackageRedis().replace(".", cgc.getFileSeparator()) +
-                            cgc.getFileSeparator() + "RedisConfiguration" + StringPool.DOT_JAVA;
-                }
-            });
-
-            //RedisCache.java模板和输出配置
-            focList.add(new FileOutConfig(cgc.getUserTemplateDir() + "/" + cgc.getUserTemplateRedisCache() + "." + cgc.getUserTemplateType()) {
-                @Override
-                public String outputFile(TableInfo tableInfo) {
-                    // 自定义输出文件名称
-                    return projectPath + "/src/main/java".replace("/", cgc.getFileSeparator()) +
-                            (StringUtils.isEmpty(pc.getParent()) ?
-                                    "" : cgc.getFileSeparator() + pc.getParent().replace(".", cgc.getFileSeparator())
-                            ) +
-                            cgc.getFileSeparator() + cgc.getPackageRedis().replace(".", cgc.getFileSeparator()) +
-                            cgc.getFileSeparator() + "RedisCache" + StringPool.DOT_JAVA;
-                }
-            });
+            tc.setServiceImpl(null);
 
             //RedisConfig.java模板和输出配置
             focList.add(new FileOutConfig(cgc.getUserTemplateDir() + "/" + cgc.getUserTemplateRedisConfig() + "." + cgc.getUserTemplateType()) {

@@ -23,7 +23,7 @@ public class MybatisPlusCodeGenerate {
         CodeGenerator.dataSourceCodeGenerate(dsgc);
 
         CodeGeneratorConfig cgc = new CodeGeneratorConfig(
-                "psm", "com.github.yhl452493373.demo", new String[]{"employee"}
+                "psm", "com.github.yhl452493373.demo", new String[]{"table1", "table2"}
         );
         cgc.setFileOverride(false);
         cgc.setEnableCache(true);
