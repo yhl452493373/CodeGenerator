@@ -10,7 +10,32 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
 使用代码:
 ## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.具体增加的构造方法,请参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java)
 ## 注意:从1.2.0开始,redis更改redis缓存为Mybatis Plus官方推荐方式:@Cacheable,@CacheEvict等自行管理.具体用法参考:[https://blog.csdn.net/dreamhai/article/details/80642010](https://blog.csdn.net/dreamhai/article/details/80642010)
-# 从1.1.11升级到1.2.0,如果采用了redis,则需要删除RedisConfiguration.java, RedisCache.java. RedisConfig.java中,删除RedisCache.setRedisTemplate(redisTemplate)和RedisCache.setRedisConfiguration(new RedisConfiguration()),同时删除以前生成的Mapper.xml中<cache-ref namespace="xxxxMapper" />,删除Mapper.java中的@CacheNamespace(implementation= RedisCache.class,eviction= RedisCache.class),同时在ServiceImpl中增加@CacheConfig(cacheNames = "缓存命名空间(只能为英文)"),之后,在需要缓存的方法上添加 @Cacheable(key = "'id_'+#id")来缓存数据, @CacheEvict(condition = "#id!=null", allEntries = true)来清除缓存.这些标签请参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java). 同时,如果页面上有展示日期的,如果没用 timeObject?string("日期格式") 来格式化日期,则需要写成 timeObject?date 或 timeObject? time 或 timeObject? datetime
+### 从1.1.11升级到1.2.0,如果采用了redis,则需要删除RedisConfiguration.java, RedisCache.java文件。
+### RedisConfig.java中,删除以下两行：
+```java
+    RedisCache.setRedisTemplate(redisTemplate);
+    RedisCache.setRedisConfiguration(new RedisConfiguration());
+```
+### 同时删除以前生成的Mapper.xml中
+```xml
+    <cache-ref namespace="xxxxMapper" />
+```
+### 删除Mapper.java中
+```java
+    @CacheNamespace(implementation= RedisCache.class,eviction= RedisCache.class)
+```
+### 同时在ServiceImpl中增加
+```java
+    @CacheConfig(cacheNames = "缓存命名空间(只能为英文)")
+```
+### 之后,在ServiceImpl中需要缓存的方法上添加 
+```java
+    @Cacheable(key = "'id_'+#id")//缓存数据
+    @CacheEvict(condition = "#id!=null", allEntries = true)//清除缓存
+```
+### 同时,如果页面上有展示日期的,如果没用 timeObject?string("日期格式") 来格式化日期,则需要写成 timeObject?date 或 timeObject? time 或 timeObject? datetime
+
+### 代码生成功能使用代码如下：
 ```java
     //单数据源
     private static void singleDataSource() {
@@ -59,7 +84,7 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
         });
     }
 ```
-### DataSourceGeneratorConfig有以下几个属性,均可通过set设置,其他属性建议不更改 ###
+### DataSourceGeneratorConfig有以下几个属性,均可通过set设置,其他属性建议不更改
 ```java
     //全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存:true - 启用,false - 不启用.作用同mybatis plus的cacheEnabled
     private Boolean cacheEnabled = false;
@@ -74,8 +99,8 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
     //文件存在时是否覆盖.
     private Boolean fileOverride = false;
 ```
-**fileOverride - 属性请一定注意.此属性建议项目刚开始时使用true,之后要补充新表相关mapper,service等的时候改为false,避免之前的代码被覆盖**
-###### 单数据源application-single-datasource.yml配置参考 ######
+**fileOverride - 属性请一定注意.此属性建议项目刚开始时使用true,之后要补充新表相关mapper,service等的时候改为false,避免之前的代码被覆盖
+###### 单数据源application-single-datasource.yml配置参考
 ```yaml
     #单数据源，与多数据源列表二选一。如果既设置了单数据源，又设置了多数据源，则以多数据源为准
     #如果要启用,则在application.yml中spring.profiles.active添加一个single-datasource列表对象
@@ -98,7 +123,7 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
         #存放对应mapper.xml的包
         mapper-locations: classpath:mybatis/mapper
 ```
-###### 多数据源application-multiple-datasource.yml配置参考 ######
+###### 多数据源application-multiple-datasource.yml配置参考
 ```yaml
     #多数据源列表，与单数据源二选一。如果既设置了单数据源，又设置了多数据源，则以多数据源为准
     #如果要启用,则在application.yml中spring.profiles.active添加一个multiple-datasource列表对象
@@ -128,7 +153,7 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
         mapper-package: com.yang.demo.mapper
         mapper-locations: classpath:mybatis/mapper
 ```
-### CodeGeneratorConfig有以下一些属性,均通过set设置,其他属性不建议修改 ###
+### CodeGeneratorConfig有以下一些属性,均通过set设置,其他属性不建议修改。具体可以参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java)
 ```java
     //数据源配置
         private String host = "localhost";
