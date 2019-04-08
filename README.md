@@ -7,6 +7,8 @@ maven引用,如果下载失败,可能是maven库还没同步,需要耐心等待�
         <version>1.2.0</version>
     </dependency>
 ```
+### 如果要使用mybatis-plus的枚举转换功能，请在生成的DataSourceConfig.java中的sqlSessionFactory方法新增一行sessionFactory.setTypeEnumsPackage("枚举所在包");
+---
 使用代码:
 ## 注意:从1.1.11开始,DataSourceGeneratorConfig和CodeGeneratorConfig的set方法均支持链式写法(兼容原来的写法),并且CodeGeneratorConfig增加了时区设置,增加了几个构造方法.CodeGeneratorConfig构造方法中,交换了packageParent和tableInclude的位置.具体增加的构造方法,请参考[CodeGeneratorConfig源码](src/main/java/com/github/yhl452493373/generator/CodeGeneratorConfig.java)
 ## 注意:从1.2.0开始,redis更改redis缓存为Mybatis Plus官方推荐方式:@Cacheable,@CacheEvict等自行管理.具体用法参考:[https://blog.csdn.net/dreamhai/article/details/80642010](https://blog.csdn.net/dreamhai/article/details/80642010)
